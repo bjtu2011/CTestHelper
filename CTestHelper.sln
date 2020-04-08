@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1062
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTestHelper", "CTestHelper\CTestHelper.csproj", "{F742B84F-415C-4C32-A50B-2AB62134A7CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F742B84F-415C-4C32-A50B-2AB62134A7CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F742B84F-415C-4C32-A50B-2AB62134A7CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F742B84F-415C-4C32-A50B-2AB62134A7CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F742B84F-415C-4C32-A50B-2AB62134A7CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6CD3D6B0-BCAE-4EE3-8F7C-2EF9D5F4B0FD}
+	EndGlobalSection
+EndGlobal
