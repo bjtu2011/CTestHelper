@@ -36,7 +36,7 @@
             this.skinListView1 = new CCWin.SkinControl.SkinListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.skinListBox1 = new CCWin.SkinControl.SkinListBox();
+            this.logListBox = new CCWin.SkinControl.SkinListBox();
             this.skinMenuStrip1 = new CCWin.SkinControl.SkinMenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,17 +75,17 @@
             // 
             this.columnHeader2.Text = "Fm";
             // 
-            // skinListBox1
+            // logListBox
             // 
-            this.skinListBox1.Back = null;
-            this.skinListBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.skinListBox1.FormattingEnabled = true;
-            this.skinListBox1.Items.AddRange(new CCWin.SkinControl.SkinListBoxItem[] {
-            ((CCWin.SkinControl.SkinListBoxItem)(resources.GetObject("skinListBox1.Items")))});
-            this.skinListBox1.Location = new System.Drawing.Point(585, 86);
-            this.skinListBox1.Name = "skinListBox1";
-            this.skinListBox1.Size = new System.Drawing.Size(208, 446);
-            this.skinListBox1.TabIndex = 2;
+            this.logListBox.Back = null;
+            this.logListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.logListBox.FormattingEnabled = true;
+            this.logListBox.Items.AddRange(new CCWin.SkinControl.SkinListBoxItem[] {
+            ((CCWin.SkinControl.SkinListBoxItem)(resources.GetObject("logListBox.Items")))});
+            this.logListBox.Location = new System.Drawing.Point(585, 86);
+            this.logListBox.Name = "logListBox";
+            this.logListBox.Size = new System.Drawing.Size(208, 446);
+            this.logListBox.TabIndex = 2;
             // 
             // skinMenuStrip1
             // 
@@ -192,7 +192,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 539);
-            this.Controls.Add(this.skinListBox1);
+            this.Controls.Add(this.logListBox);
             this.Controls.Add(this.skinListView1);
             this.Controls.Add(this.skinMenuStrip1);
             this.MainMenuStrip = this.skinMenuStrip1;
@@ -219,7 +219,7 @@
         private CCWin.SkinControl.SkinListView skinListView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
-        private CCWin.SkinControl.SkinListBox skinListBox1;
+        private CCWin.SkinControl.SkinListBox logListBox;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem1;
     }
 }

@@ -21,7 +21,8 @@ namespace CTestHelper
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-          
+            //开启监控线程
+            logListBox.Items.Add(new SkinListBoxItem("测试"));
             
         }
 
