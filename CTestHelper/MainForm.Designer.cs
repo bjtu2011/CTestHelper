@@ -148,14 +148,14 @@
             // SettingMenuItem
             // 
             this.SettingMenuItem.Name = "SettingMenuItem";
-            this.SettingMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.SettingMenuItem.Size = new System.Drawing.Size(180, 22);
             this.SettingMenuItem.Text = "设置";
             this.SettingMenuItem.Click += new System.EventHandler(this.SettingMenuItem_Click);
             // 
             // QuitMenuItem
             // 
             this.QuitMenuItem.Name = "QuitMenuItem";
-            this.QuitMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.QuitMenuItem.Size = new System.Drawing.Size(180, 22);
             this.QuitMenuItem.Text = "退出";
             this.QuitMenuItem.Click += new System.EventHandler(this.QuitMenuItem_Click);
             // 
@@ -185,6 +185,7 @@
             this.关于ToolStripMenuItem1.Name = "关于ToolStripMenuItem1";
             this.关于ToolStripMenuItem1.Size = new System.Drawing.Size(68, 21);
             this.关于ToolStripMenuItem1.Text = "联系作者";
+            this.关于ToolStripMenuItem1.Visible = false;
             this.关于ToolStripMenuItem1.Click += new System.EventHandler(this.ContactAuthorMenuItem_Click);
             // 
             // MainForm

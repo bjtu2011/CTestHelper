@@ -35,6 +35,8 @@
             this.skinButton1 = new CCWin.SkinControl.SkinButton();
             this.skinLabel2 = new CCWin.SkinControl.SkinLabel();
             this.ChooseInstrument = new CCWin.SkinControl.SkinComboBox();
+            this.skinLabel3 = new CCWin.SkinControl.SkinLabel();
+            this.MonitorFileType = new CCWin.SkinControl.SkinComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.skinPictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -149,11 +151,40 @@
             this.ChooseInstrument.TabIndex = 5;
             this.ChooseInstrument.WaterText = "";
             // 
+            // skinLabel3
+            // 
+            this.skinLabel3.AutoSize = true;
+            this.skinLabel3.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel3.BorderColor = System.Drawing.Color.White;
+            this.skinLabel3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.skinLabel3.Location = new System.Drawing.Point(34, 149);
+            this.skinLabel3.Name = "skinLabel3";
+            this.skinLabel3.Size = new System.Drawing.Size(92, 17);
+            this.skinLabel3.TabIndex = 6;
+            this.skinLabel3.Text = "监控文件类型：";
+            // 
+            // MonitorFileType
+            // 
+            this.MonitorFileType.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.MonitorFileType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.MonitorFileType.FormattingEnabled = true;
+            this.MonitorFileType.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.MonitorFileType.Items.AddRange(new object[] {
+            "*.mdb",
+            "*.csv"});
+            this.MonitorFileType.Location = new System.Drawing.Point(126, 144);
+            this.MonitorFileType.Name = "MonitorFileType";
+            this.MonitorFileType.Size = new System.Drawing.Size(297, 22);
+            this.MonitorFileType.TabIndex = 7;
+            this.MonitorFileType.WaterText = "";
+            // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(490, 258);
+            this.Controls.Add(this.MonitorFileType);
+            this.Controls.Add(this.skinLabel3);
             this.Controls.Add(this.ChooseInstrument);
             this.Controls.Add(this.skinLabel2);
             this.Controls.Add(this.skinButton1);
@@ -165,6 +196,7 @@
             this.Name = "Setting";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "设置";
+            this.Load += new System.EventHandler(this.Setting_Load);
             ((System.ComponentModel.ISupportInitialize)(this.skinPictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -179,5 +211,7 @@
         private CCWin.SkinControl.SkinButton skinButton1;
         private CCWin.SkinControl.SkinLabel skinLabel2;
         private CCWin.SkinControl.SkinComboBox ChooseInstrument;
+        private CCWin.SkinControl.SkinLabel skinLabel3;
+        private CCWin.SkinControl.SkinComboBox MonitorFileType;
     }
 }

@@ -13,6 +13,7 @@ namespace CTestHelper
 {
     public partial class Setting : CCSkinMain
     {
+        IniFiles ini = new IniFiles(Application.StartupPath + @"\MyConfig.INI");
        
         public Setting()
         {
@@ -40,15 +41,29 @@ namespace CTestHelper
         private void skinButton1_Click(object sender, EventArgs e)
         {
             //判断仪器设备 和 数据文件夹是否为空
-            if(DataFolder.Text.Equals("") || ChooseInstrument.Text.Equals(""))
+            if(DataFolder.Text.Equals("") || ChooseInstrument.Text.Equals("") || MonitorFileType.Text.Equals(""))
             {
                 MessageBox.Show("设置项目不能为空！");
                 this.DialogResult = DialogResult.None;
             }
             else
             {
+                //存储设置信息到INI
+                ini.IniWriteValue("配置", "ChooseInstrument", ChooseInstrument.Text);
+                ini.IniWriteValue("配置", "DataFolder", DataFolder.Text);
+                ini.IniWriteValue("配置", "MonitorFileType", MonitorFileType.Text);
+
                 this.DialogResult = DialogResult.OK;
+                this.Close();
             }
+        }
+
+        private void Setting_Load(object sender, EventArgs e)
+        {
+
+            ChooseInstrument.Text=ini.IniReadValue("配置", "ChooseInstrument");
+            DataFolder.Text = ini.IniReadValue("配置", "DataFolder");
+            MonitorFileType.Text=ini.IniReadValue("配置", "MonitorFileType");
         }
     }
 }

@@ -52,14 +52,14 @@
       <HintPath>F:\迅雷下载\CSkin 16.1.14.3\CSkin 4.0\CSkin.dll</HintPath>
     </Reference>
     <Reference Include="CsvHelper">
-      <HintPath>bin\Debug\utils\CsvHelper.dll</HintPath>
+      <HintPath>..\..\..\CSkinTest\CSkinTest\bin\Debug\utils\CsvHelper.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>bin\Debug\utils\log4net.dll</HintPath>
+      <HintPath>..\..\..\CSkinTest\CSkinTest\bin\Debug\utils\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\utils\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\CSkinTest\CSkinTest\bin\Debug\utils\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -89,6 +89,7 @@
     <Compile Include="ContactAuthor.Designer.cs">
       <DependentUpon>ContactAuthor.cs</DependentUpon>
     </Compile>
+    <Compile Include="IniFiles.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
