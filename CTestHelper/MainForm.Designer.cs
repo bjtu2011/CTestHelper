@@ -28,14 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.skinListView1 = new CCWin.SkinControl.SkinListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.dataListView = new CCWin.SkinControl.SkinListView();
             this.logListBox = new CCWin.SkinControl.SkinListBox();
             this.skinMenuStrip1 = new CCWin.SkinControl.SkinMenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,43 +39,26 @@
             this.数据详情ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.skinLabel1 = new CCWin.SkinControl.SkinLabel();
             this.skinMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // skinListView1
+            // dataListView
             // 
-            this.skinListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.skinListView1.HideSelection = false;
-            this.skinListView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2,
-            listViewItem3,
-            listViewItem4});
-            this.skinListView1.Location = new System.Drawing.Point(8, 164);
-            this.skinListView1.Name = "skinListView1";
-            this.skinListView1.OwnerDraw = true;
-            this.skinListView1.Size = new System.Drawing.Size(571, 136);
-            this.skinListView1.TabIndex = 1;
-            this.skinListView1.UseCompatibleStateImageBehavior = false;
-            this.skinListView1.View = System.Windows.Forms.View.List;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "序号";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Fm";
+            this.dataListView.HideSelection = false;
+            this.dataListView.Location = new System.Drawing.Point(8, 86);
+            this.dataListView.Name = "dataListView";
+            this.dataListView.OwnerDraw = true;
+            this.dataListView.Size = new System.Drawing.Size(571, 446);
+            this.dataListView.TabIndex = 1;
+            this.dataListView.UseCompatibleStateImageBehavior = false;
+            this.dataListView.View = System.Windows.Forms.View.List;
             // 
             // logListBox
             // 
             this.logListBox.Back = null;
             this.logListBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.logListBox.FormattingEnabled = true;
-            this.logListBox.Items.AddRange(new CCWin.SkinControl.SkinListBoxItem[] {
-            ((CCWin.SkinControl.SkinListBoxItem)(resources.GetObject("logListBox.Items")))});
             this.logListBox.Location = new System.Drawing.Point(585, 86);
             this.logListBox.Name = "logListBox";
             this.logListBox.Size = new System.Drawing.Size(208, 446);
@@ -148,14 +125,14 @@
             // SettingMenuItem
             // 
             this.SettingMenuItem.Name = "SettingMenuItem";
-            this.SettingMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SettingMenuItem.Size = new System.Drawing.Size(100, 22);
             this.SettingMenuItem.Text = "设置";
             this.SettingMenuItem.Click += new System.EventHandler(this.SettingMenuItem_Click);
             // 
             // QuitMenuItem
             // 
             this.QuitMenuItem.Name = "QuitMenuItem";
-            this.QuitMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.QuitMenuItem.Size = new System.Drawing.Size(100, 22);
             this.QuitMenuItem.Text = "退出";
             this.QuitMenuItem.Click += new System.EventHandler(this.QuitMenuItem_Click);
             // 
@@ -188,18 +165,32 @@
             this.关于ToolStripMenuItem1.Visible = false;
             this.关于ToolStripMenuItem1.Click += new System.EventHandler(this.ContactAuthorMenuItem_Click);
             // 
+            // skinLabel1
+            // 
+            this.skinLabel1.AutoSize = true;
+            this.skinLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.skinLabel1.BorderColor = System.Drawing.Color.White;
+            this.skinLabel1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.skinLabel1.Location = new System.Drawing.Point(582, 66);
+            this.skinLabel1.Name = "skinLabel1";
+            this.skinLabel1.Size = new System.Drawing.Size(68, 17);
+            this.skinLabel1.TabIndex = 3;
+            this.skinLabel1.Text = "输出窗口：";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 539);
+            this.Controls.Add(this.skinLabel1);
             this.Controls.Add(this.logListBox);
-            this.Controls.Add(this.skinListView1);
+            this.Controls.Add(this.dataListView);
             this.Controls.Add(this.skinMenuStrip1);
             this.MainMenuStrip = this.skinMenuStrip1;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "实验助手";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.skinMenuStrip1.ResumeLayout(false);
             this.skinMenuStrip1.PerformLayout();
@@ -217,11 +208,10 @@
         private System.Windows.Forms.ToolStripMenuItem 数据ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 数据详情ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem;
-        private CCWin.SkinControl.SkinListView skinListView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private CCWin.SkinControl.SkinListView dataListView;
         private CCWin.SkinControl.SkinListBox logListBox;
         private System.Windows.Forms.ToolStripMenuItem 关于ToolStripMenuItem1;
+        private CCWin.SkinControl.SkinLabel skinLabel1;
     }
 }
 

@@ -18,7 +18,7 @@ namespace CTestHelper
     class Utils
     {
         private static ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
+        public static Boolean isTestEnd = false;//判断实验是否做完
         public static string Md5(string src)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(src);
@@ -557,5 +557,16 @@ namespace CTestHelper
             }
             return OpenSelectFolderDialog_CANCEL;
         }
+        public static string ObjToJson<T>(T t)
+        {
+            return JsonConvert.SerializeObject(t);
+        }
+
+        public static T JsonToObj<T>(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+        }
+
+
     }
 }

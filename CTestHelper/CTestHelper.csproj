@@ -27,9 +27,10 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -37,6 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,6 +48,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSkin">
@@ -89,13 +92,31 @@
     <Compile Include="ContactAuthor.Designer.cs">
       <DependentUpon>ContactAuthor.cs</DependentUpon>
     </Compile>
+    <Compile Include="DecodeLib\DecodeMessage.cs" />
+    <Compile Include="DecodeLib\Instrument.cs" />
+    <Compile Include="DecodeLib\InstrumentMessage.cs" />
+    <Compile Include="DecodeLib\InterTypeEnum.cs" />
     <Compile Include="IniFiles.cs" />
+    <Compile Include="Kernels\DBHelper.cs" />
+    <Compile Include="Kernels\DecodeEndHandler.cs" />
+    <Compile Include="Kernels\DecodeFactory.cs" />
+    <Compile Include="Kernels\IDecode.cs" />
+    <Compile Include="Kernels\Item.cs" />
+    <Compile Include="Kernels\ItemValues.cs" />
+    <Compile Include="Kernels\Kernel.cs" />
+    <Compile Include="Kernels\KeyValue.cs" />
+    <Compile Include="Kernels\Sample.cs" />
+    <Compile Include="Kernels\SampleData.cs" />
+    <Compile Include="Kernels\SampleModel.cs" />
+    <Compile Include="Kernels\TaskEndHandler.cs" />
+    <Compile Include="Kernels\W110Parse.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Message4Kernel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting.cs">
@@ -113,6 +134,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -140,9 +162,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HttpClient\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\1586343990%281%29.png" />
   </ItemGroup>
