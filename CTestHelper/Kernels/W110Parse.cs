@@ -73,10 +73,10 @@ namespace CTestHelper.Kernels
                         Dictionary<String, String> dict = new Dictionary<string, string>();
                         if (!"".Equals(value) && !"".Equals(value2) && !"".Equals(value3) && !"".Equals(value4))
                         {
-                            dict.Add("屈服力", value);
-                            dict.Add("负荷", value2);
-                            dict.Add("伸长率", value3);
-                            dict.Add("弹性模量", value4);
+                            dict.Add("qufuli", value);
+                            dict.Add("fuhe", value2);
+                            dict.Add("shenchanglv", value3);
+                            dict.Add("tanxingmoliang", value4);
                             listDict.Add(dict);
                         }
                         

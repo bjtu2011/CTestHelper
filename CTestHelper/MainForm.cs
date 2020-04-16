@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -18,10 +17,12 @@ namespace CTestHelper
         private ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private FileSystemWatcher fsw;
         private static SampleModel msg;
+
         private IniFiles ini = new IniFiles(Application.StartupPath + @"\MyConfig.INI");
-        Kernel kernel = new Kernel("");
+        private Kernel kernel = new Kernel("");
         private Boolean isFirst = true;
         private long curTime = 0L;
+
         //禁用关闭按钮
         private void banCloseButton()
         {
@@ -32,7 +33,6 @@ namespace CTestHelper
             CloseDownBack = b1;
             CloseNormlBack = b1;
         }
-      
 
         public MainForm()
         {
@@ -40,43 +40,37 @@ namespace CTestHelper
             InitializeComponent();
         }
 
-        private void OnTaskEnd(object sender, SampleModel msg1)
+        private void OnTaskEnd(object sender, SampleModel msg1, String response)
         {
-          msg = msg1;
-          logListBox.BeginInvoke(new EventHandler(updateLogListBox), null);
-          
+            msg = msg1;
+            if (response != "success")
+                MessageBox.Show("数据发送失败，需要重新发送。");
+            else
+                logListBox.BeginInvoke(new EventHandler(updateLogListBox), null);
         }
 
         private void updateLogListBox(object sender, EventArgs e)
         {
             //根据检测机器，填入数据
-            insertData2LV(ini.IniReadValue("配置", "ChooseInstrument"),msg);
-
-
+            insertData2LV(ini.IniReadValue("配置", "ChooseInstrument"), msg);
             logListBox.Items.Add(new SkinListBoxItem("处理结束"));
-          
         }
 
-        private void insertData2LV(string v,SampleModel sampleModel)
+        private void insertData2LV(string v, SampleModel sampleModel)
         {
-            if(v.Equals("W110"))
+            if (v.Equals("W110"))
             {
-
                 //插入报告编号
-                ListViewGroup group1 = new ListViewGroup(sampleModel.sampleNo+"-"+sampleModel.instrumentName);
+                ListViewGroup group1 = new ListViewGroup(sampleModel.sampleNo + "-" + sampleModel.instrumentName);
                 dataListView.Groups.Add(group1);
                 List<Dictionary<String, String>> ldict = sampleModel.sampleDataList;
-                foreach(Dictionary<String,String> dict in ldict)
+                foreach (Dictionary<String, String> dict in ldict)
                 {
                     ListViewItem item = new ListViewItem(new string[]
-                                                 {sampleModel.sampleNo , dict["屈服力"], dict["负荷"],dict["伸长率"],dict["弹性模量"] }, 0, group1);
+                                                 {sampleModel.sampleNo , dict["qufuli"], dict["fuhe"],dict["shenchanglv"],dict["tanxingmoliang"] }, 0, group1);
                     dataListView.Items.Add(item);
                 }
                 dataListView.View = View.Details;
-               
-
-
-
             }
             return;
         }
@@ -84,6 +78,7 @@ namespace CTestHelper
         private delegate void renamedDelegate(RenamedEventArgs e);
 
         private delegate void setLogTextDelegate(FileSystemEventArgs e);
+
         private void AboutMenuItem_Click(object sender, EventArgs e)
         {
             new About().ShowDialog();
@@ -117,7 +112,7 @@ namespace CTestHelper
 
         private void InitListView(string v)
         {
-           if(v.Equals("W110"))
+            if (v.Equals("W110"))
             {
                 //添加头
                 ColumnHeader h1 = new ColumnHeader();
@@ -144,13 +139,10 @@ namespace CTestHelper
                 h5.Text = "弹性模量";
 
                 h5.Width = 150;
-                dataListView.Columns.AddRange(new ColumnHeader[] { h1, h2, h3, h4,h5 });
+                dataListView.Columns.AddRange(new ColumnHeader[] { h1, h2, h3, h4, h5 });
                 dataListView.View = View.Details;
             }
         }
-
-
-
 
         /**
          * filename: 过滤文件类型
@@ -161,27 +153,26 @@ namespace CTestHelper
         private void OnFileCreated(object sender, FileSystemEventArgs e)
         {
             //防止多个文件同时拖入
-            if(curTime==0L)
+            if (curTime == 0L)
             {
-                curTime= Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds);
-               
+                curTime = Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds);
             }
             else
             {
                 long interval = Convert.ToInt64((DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0)).TotalSeconds) - curTime;
-                if(interval<1000)
+                if (interval < 1000)
                 {
                     Thread.Sleep(1000);
                 }
             }
             //判断是否第一次
-            if(isFirst)
+            if (isFirst)
             {
                 isFirst = false;
             }
             else
             {
-              Utils.isTestEnd = true;
+                Utils.isTestEnd = true;
             }
             //定义消息
             Message4Kernel msg4kernel = new Message4Kernel
@@ -189,17 +180,17 @@ namespace CTestHelper
                 id = long.Parse("10717"),
                 name = ini.IniReadValue("配置", "ChooseInstrument"),
                 filePath = Path.GetDirectoryName(e.FullPath),
-                
-                fileName = e.Name,
-                fileType= ini.IniReadValue("配置", "MonitorFileType")
 
+                fileName = e.Name,
+                fileType = ini.IniReadValue("配置", "MonitorFileType")
             };
             //发送消息给kernel
-         
+
             kernel.Notify(msg4kernel);
         }
 
         private Boolean quit = false;
+
         private void QuitMenuItem_Click(object sender, EventArgs e)
         {
             Utils.isTestEnd = true;
@@ -214,7 +205,6 @@ namespace CTestHelper
             setting.Show();
         }
 
-
         /**************************************************
         @brief   : 开启文件监控
         @author  : wanghuabin
@@ -222,7 +212,6 @@ namespace CTestHelper
         @output  ：void
         @time    : 2020/04/10
         **************************************************/
-
 
         private void startFileWatcher(String fileName, String directoryName)
         {
@@ -235,8 +224,6 @@ namespace CTestHelper
             fsw.EnableRaisingEvents = true;
             return;
         }
-
-      
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {

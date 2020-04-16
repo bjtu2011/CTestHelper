@@ -13,11 +13,13 @@
 ************************************************************************/
 
 using log4net;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace CTestHelper.Kernels
 {
@@ -46,15 +48,22 @@ namespace CTestHelper.Kernels
 
         private void oneDecodeEnd(object sender, int status, Exception ex, string strSampleData, SampleModel sampleModel)
         {
-            
 
+            //获取天气数据
+            String weatherRes = Utils.HttpPost("https://free-api.heweather.net/s6/weather/now?location=auto_ip&key=12d41376e9e34bb18c54b95de9cfb85a", null, "");
+            JObject job = JObject.Parse(weatherRes) ;
+            JArray jArray = JArray.Parse(job["HeWeather6"].ToString());
+            job = (JObject)jArray[0];
+            job = JObject.Parse(job["now"].ToString());
+            String tmp = job["tmp"].ToString();
             //发送数据
-
-
+            Dictionary<String, Object> dict = new Dictionary<string, object>();
+            dict.Add("jsonData", Utils.ObjToJson<SampleModel>(sampleModel));
+            String response = Utils.HttpPostJson("http://127.0.0.1:8080/zgjc/insertData.php?&tmp="+tmp, dict, "");
 
             //通知界面更新
             
-            OnTaskEndEvent(this, sampleModel);
+            OnTaskEndEvent(this, sampleModel,response);
             
         }
 

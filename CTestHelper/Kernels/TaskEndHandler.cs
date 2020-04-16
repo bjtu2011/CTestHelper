@@ -16,5 +16,5 @@ using System.Collections.Generic;
 
 namespace CTestHelper.Kernels
 {
-    public delegate void TaskEndHanlder(object sender, SampleModel msg);
+    public delegate void TaskEndHanlder(object sender, SampleModel msg,String response);
 }
