@@ -13,12 +13,12 @@
 ************************************************************************/
 
 using log4net;
+using NDatabase.Odb;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace CTestHelper.Kernels
@@ -26,50 +26,64 @@ namespace CTestHelper.Kernels
     public class DecodeFactory
     {
         private ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private IniFiles ini = new IniFiles(Application.StartupPath + @"\MyConfig.INI");
 
         public event TaskEndHanlder OnTaskEndEvent;
-        W110Decode w110Decode = new W110Decode();
-        private static DecodeFactory defaultInstance = new DecodeFactory();
 
+        public event sendProgressHanlder OnSendProgressEvent;//进度事件，当该事件发生，调用主线程的更新界面
+
+        private static DecodeFactory defaultInstance = new DecodeFactory();
 
         public static DecodeFactory Instance => defaultInstance;
 
-
         public DecodeFactory()
         {
-            init();
-        }
-        public void init()
-        {
-           
-            w110Decode.OneDecodeEnd += oneDecodeEnd;
         }
 
-
-        private void oneDecodeEnd(object sender, int status, Exception ex, string strSampleData, SampleModel sampleModel)
+        public void SendToServer(NSampleModel nsampleModel)
         {
-
-            //获取天气数据
-            String weatherRes = Utils.HttpPost("https://free-api.heweather.net/s6/weather/now?location=auto_ip&key=12d41376e9e34bb18c54b95de9cfb85a", null, "");
-            JObject job = JObject.Parse(weatherRes) ;
-            JArray jArray = JArray.Parse(job["HeWeather6"].ToString());
-            job = (JObject)jArray[0];
-            job = JObject.Parse(job["now"].ToString());
-            String tmp = job["tmp"].ToString();
-            //发送数据
-            Dictionary<String, Object> dict = new Dictionary<string, object>();
-            dict.Add("jsonData", Utils.ObjToJson<SampleModel>(sampleModel));
-            String response = Utils.HttpPostJson("http://127.0.0.1:8080/zgjc/insertData.php?&tmp="+tmp, dict, "");
-
-            //通知界面更新
-            
-            OnTaskEndEvent(this, sampleModel,response);
-            
+            SampleModel sampleModel = nsampleModel.sampleModel;
+            if (sampleModel != null)
+            {
+                String tmp = "0";
+                //获取天气数据
+                String weatherRes = Utils.HttpPost("https://free-api.heweather.net/s6/weather/now?location=auto_ip&key=12d41376e9e34bb18c54b95de9cfb85a", null, "");
+                if (weatherRes != null && !weatherRes.Equals(""))
+                {
+                    JObject job = JObject.Parse(weatherRes);
+                    JArray jArray = JArray.Parse(job["HeWeather6"].ToString());
+                    job = (JObject)jArray[0];
+                    job = JObject.Parse(job["now"].ToString());
+                    tmp = job["tmp"].ToString();
+                }
+                //发送数据
+                log.Debug("发送采集到的数据");
+                Dictionary<String, Object> dict = new Dictionary<string, object>();
+                dict.Add("jsonData", Utils.ObjToJson<SampleModel>(sampleModel));
+                String response = Utils.HttpPostJson(ini.IniReadValue("配置", "ServerUrl") + "?tmp=" + tmp, dict, "");
+                log.Debug("发送成功，准备更新界面");
+                //通知界面更新,如果不在进度条显示
+                if (!sampleModel.isProgressShow)
+                {
+                    OnTaskEndEvent(this, nsampleModel, response);
+                }
+                else
+                {
+                   
+                    //向progressbar发送消息
+                    OnSendProgressEvent(response,nsampleModel);
+                  
+                }
+            }
+            else
+            {
+                OnTaskEndEvent(this, nsampleModel, "null");
+                log.Error("发送时sampleModel为null");
+            }
         }
 
-        public void Decode( Message4Kernel msg)
+        public void Decode(Message4Kernel msg)
         {
-            log.Debug(Thread.CurrentThread.ManagedThreadId.ToString()+" 开始解析 " + msg.id.ToString());
             switch (msg.fileType)
             {
                 case "*.csv":
@@ -79,14 +93,31 @@ namespace CTestHelper.Kernels
                 case "*.mdb":
                     {
                         string dbServer = Path.Combine(msg.filePath, msg.fileName);
-                        msg.dbUser = "Admin";
-                        msg.dbPwd = "";
-                        w110Decode.DataDecode(msg.id, msg.fileType, dbServer, msg.dbUser, msg.dbPwd);
+                        if (ini.IniReadValue("配置", "ChooseInstrument").Equals("W110"))
+                        {
+                            log.Debug(msg.filePath + "：按照W110设备设置进行解析");
+                            msg.dbUser = "Admin";
+                            msg.dbPwd = "";
+                            W110Decode w110Decode = new W110Decode();
+                            w110Decode.DataDecode(msg.id, msg.fileType, dbServer, msg.dbUser, msg.dbPwd);
+                        }
+                        if (ini.IniReadValue("配置", "ChooseInstrument").Equals("W119"))
+                        {
+                            msg.dbUser = "Admin";
+                            msg.dbPwd = "88888888";
+                            W119Decode w119Decode = new W119Decode();
+                            w119Decode.DataDecode(msg.id, msg.fileType, dbServer, msg.dbUser, msg.dbPwd);
+                        }
+                        if (ini.IniReadValue("配置", "ChooseInstrument").Equals("W120"))
+                        {
+                            msg.dbUser = "Admin";
+                            msg.dbPwd = "";
+                            W120Decode w120Decode = new W120Decode();
+                            w120Decode.DataDecode(msg.id, msg.fileType, dbServer, msg.dbUser, msg.dbPwd);
+                        }
                         break;
                     }
             }
         }
-
-   
     }
 }

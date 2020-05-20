@@ -26,17 +26,23 @@ namespace CTestHelper.Kernels
         public string instrumentId { get; set; }
         public string instrumentName { get; set; }
 
+        public Boolean isProgressShow = false;
 
         public List<Dictionary<string, string>> sampleDataList;
  
-        public SampleModel(string iId, string iName, String s, List<Dictionary<string, string>> sdl)
+        public SampleModel()
         {
-            instrumentId = iId;
-            instrumentName = iName;
-            sampleNo =s;
-            sampleDataList = sdl;
+          
         }
+        public override String ToString()
+        { 
+            return Utils.ObjToJson<SampleModel>(this);
+        }
+        //string  -> SampleModel
+        public static explicit operator SampleModel(String x)
+         {
+            return Utils.JsonToObj<SampleModel>(x);
+         }
 
-
-    }
+}
 }

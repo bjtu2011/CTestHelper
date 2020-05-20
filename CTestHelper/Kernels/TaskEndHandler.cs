@@ -16,5 +16,5 @@ using System.Collections.Generic;
 
 namespace CTestHelper.Kernels
 {
-    public delegate void TaskEndHanlder(object sender, SampleModel msg,String response);
+    public delegate void TaskEndHanlder(object sender, NSampleModel msg,String response);//发送任务结束之后通知界面更新、记录到数据库等操作
 }

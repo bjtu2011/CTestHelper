@@ -1,9 +1,12 @@
-﻿using log4net;
+﻿using CTestHelper.Kernels;
+using log4net;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Drawing.Printing;
 using System.IO;
 using System.Management;
@@ -12,13 +15,31 @@ using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 namespace CTestHelper
 {
     class Utils
     {
         private static ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        public static Boolean isTestEnd = false;//判断实验是否做完
+        
+
+        public static void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)
+        {
+            lock(sync)
+            { 
+            isShutDown=true;
+            }
+        }
+
+        public static Boolean isTestEnd = true;//判断实验是否做完
+        public static Boolean isShutDown = false;//判断是否关机
+        public static object sync=new object ();//锁定isShutDown
+        public static String EASTERN_SOUTH = "W120";
+        public static long EASTERN_SOUTH_ID = 88888L;
+
+        //初始化处理核心
+        public static Kernel kernel = new Kernel("");
         public static string Md5(string src)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(src);
@@ -246,7 +267,7 @@ namespace CTestHelper
                     log.Info("http post request ContentLength:" + text2.Length.ToString());
                     log.Debug("http post request data:" + text2);
                     httpWebRequest.ContentType = "application/json;charset=utf-8;";
-                    httpWebRequest.ContentLength = text2.Length;
+ //                   httpWebRequest.ContentLength = text2.Length;
                     httpWebRequest.Headers.Add("Authorization", authorization);
                     using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                     {
@@ -271,7 +292,46 @@ namespace CTestHelper
                 return null;
             }
         }
+        /// <summary>
+        /// HTTP GET方式请求数据.
+        /// </summary>
+        /// <param name="url">URL.</param>
+        /// <returns></returns>
+        public static string HttpGet(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            request.Method = "GET";
+            //request.ContentType = "application/x-www-form-urlencoded";
+            request.Accept = "*/*";
+            request.Timeout = 5000;
+            request.AllowAutoRedirect = false;
 
+            WebResponse response = null;
+            string responseStr = null;
+
+            try
+            {
+                response = request.GetResponse();
+
+                if (response != null)
+                {
+                    StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                    responseStr = reader.ReadToEnd();
+                    reader.Close();
+                }
+            }
+            catch (Exception)
+            {
+                responseStr="连接超时，请检查网络连接或者服务器地址是否正确！";
+            }
+            finally
+            {
+                request = null;
+                response = null;
+            }
+
+            return responseStr;
+        }
         public static string HttpPost(string url, Dictionary<string, object> parameters)
         {
             return HttpPost(url, parameters, "application/x-www-form-urlencoded;charset=utf-8;");
@@ -565,6 +625,23 @@ namespace CTestHelper
         public static T JsonToObj<T>(string json)
         {
             return JsonConvert.DeserializeObject<T>(json);
+        }
+
+        public static List<Dictionary<String,String>> ToJson( DataTable dt)
+        {
+
+            List<Dictionary<String, String>> listDict = new List<Dictionary<string, string>>();
+            foreach (DataRow dataRow in dt.Rows)
+            {
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();  //实例化一个参数集合
+                foreach (DataColumn dataColumn in dt.Columns)
+                {
+                    dictionary.Add(dataColumn.ColumnName, dataRow[dataColumn.ColumnName].ToString());
+                }
+                listDict.Add(dictionary); //ArrayList集合中添加键值
+            }
+
+            return listDict;  //返回一个json字符串
         }
 
 

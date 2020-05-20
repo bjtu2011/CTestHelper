@@ -55,7 +55,7 @@
             this.skinLabel1.TabIndex = 1;
             this.skinLabel1.Text = "@CopyRight 信息部";
             // 
-            // Form1
+            // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -64,7 +64,8 @@
             this.Controls.Add(this.skinPictureBox1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "About";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "关于";
             ((System.ComponentModel.ISupportInitialize)(this.skinPictureBox1)).EndInit();
             this.ResumeLayout(false);

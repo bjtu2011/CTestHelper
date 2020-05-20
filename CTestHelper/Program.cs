@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,20 +17,10 @@ namespace CTestHelper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Setting setting = new Setting();
-            setting.ShowDialog();
-            if(setting.DialogResult==DialogResult.OK)
-            {
-                setting.Dispose();
+            SystemEvents.SessionEnding += new SessionEndingEventHandler(Utils.SystemEvents_SessionEnding);
+
                 Application.Run(new MainForm());
 
-            }
-            else
-            {
-                setting.Dispose();
-                return;
-            }
-    
         }
     }
 }

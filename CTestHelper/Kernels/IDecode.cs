@@ -8,7 +8,6 @@ namespace CTestHelper.Kernels
 {
     public interface IDecode
     {
-         event DecodeEndHandler OneDecodeEnd;
         void DataDecode(long instrumentId, string dbTypeof, string dbServer, string dbUser, string dbPwd);
 
     }
